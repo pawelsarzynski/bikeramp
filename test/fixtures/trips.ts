@@ -1,6 +1,8 @@
 import Trip from '../../src/trips/entities/trip.entity';
+import { CreatedTripDto } from '../../src/trips/dto/createdTrip.dto';
+import { TripDto } from '../../src/trips/dto/trip.dto';
 
-const createTripFixture = {
+const createTripFixture: TripDto = {
   startAddress: {
     street: 'foo',
     buildingNo: 9,
@@ -14,6 +16,7 @@ const createTripFixture = {
     country: 'corge',
   },
   price: 12,
+  date: '2021-09-09',
 };
 
 const tripFixture = Object.assign(new Trip(), {
@@ -23,11 +26,12 @@ const tripFixture = Object.assign(new Trip(), {
   createdAt: '2021-10-19',
 });
 
-const tripDtoFixture = {
+const tripDtoFixture: CreatedTripDto = {
   startAddress: 'foo 9, bar, baz',
   destinationAddress: 'qux 91, quux, corge',
-  price: 12,
-  distance: 19,
+  price: '12PLN',
+  distance: '19km',
+  date: '2021-09-09',
 };
 
 export { createTripFixture, tripDtoFixture, tripFixture };
