@@ -3,7 +3,9 @@ export class CreatedTripDto {
 
   public destinationAddress: string;
 
-  public price: number;
+  public price: string;
 
-  public distance: number;
+  public distance: string;
+
+  public date: string;
 }

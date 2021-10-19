@@ -3,6 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TripsController } from './trips.controller';
 import { TripsMapper } from './trips.mapper';
 import { TripsService } from './trips.service';
+import {
+  createTripFixture,
+  tripDtoFixture,
+  tripFixture,
+} from '../../test/fixtures';
 
 const tripsServiceMock = {
   create: jest.fn(),
@@ -13,40 +18,8 @@ const tripsMapperMock = {
   fromDtoToDomain: jest.fn(),
 };
 
-const createTripFixture = {
-  startAddress: {
-    street: 'foo',
-    buildingNo: 9,
-    city: 'bar',
-    country: 'baz',
-  },
-  destinationAddress: {
-    street: 'qux',
-    buildingNo: 91,
-    city: 'quux',
-    country: 'corge',
-  },
-  price: 12,
-};
-
-const tripFixture = {
-  ...createTripFixture,
-  id: 1,
-  distance: 19,
-  createdAt: '2021-10-19',
-};
-
-const tripDtoFixture = {
-  startAddress: 'foo 9, bar, baz',
-  destinationAdsress: 'qux 9, quux, corge',
-  price: 12,
-  distance: 19,
-};
-
 describe('TripsController', () => {
   let controller: TripsController;
-  let service: TripsService;
-  let mapper: TripsMapper;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -60,8 +33,6 @@ describe('TripsController', () => {
       .compile();
 
     controller = module.get<TripsController>(TripsController);
-    service = module.get<TripsService>(TripsService);
-    mapper = module.get<TripsMapper>(TripsMapper);
   });
 
   it('should be defined', () => {

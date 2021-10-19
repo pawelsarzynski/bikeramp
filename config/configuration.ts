@@ -9,5 +9,6 @@ export const config = {
     DB_NAME: Joi.string().required(),
     SERVER_PORT: Joi.number(),
     APP_NAME: Joi.string().required(),
+    GOOGLE_API_KEY: Joi.string().required(),
   }),
 };

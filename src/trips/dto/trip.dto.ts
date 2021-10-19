@@ -1,5 +1,11 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, Min, ValidateNested } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  Min,
+  ValidateNested,
+} from 'class-validator';
 
 import { AddressDto } from '../../addresses/dto/address.dto';
 
@@ -18,4 +24,8 @@ export class TripDto {
   @IsNumber()
   @Min(0)
   public price: number;
+
+  @IsNotEmpty()
+  @IsDateString()
+  public date: string;
 }

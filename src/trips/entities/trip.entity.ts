@@ -9,7 +9,7 @@ import {
 
 import Address from '../../addresses/entities/address.entity';
 
-@Entity()
+@Entity({ name: 'trips' })
 class Trip {
   @PrimaryGeneratedColumn()
   public id: number;
@@ -25,8 +25,11 @@ class Trip {
   @Column()
   public price: number;
 
-  @Column()
+  @Column({ type: 'float' })
   public distance: number;
+
+  @Column({ type: 'date' })
+  public date: string;
 
   @CreateDateColumn()
   public createdAt: string;
