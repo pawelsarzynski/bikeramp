@@ -21,12 +21,4 @@ export class TripsService {
 
     return this.tripsRepository.save(trip);
   }
-
-  findAll() {
-    return `This action returns all trips`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} trip`;
-  }
 }

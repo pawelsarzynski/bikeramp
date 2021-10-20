@@ -1,6 +1,6 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
 
-import Address from 'src/addresses/entities/address.entity';
+import Address from './entities/address.entity';
 
 @Injectable()
 export class AddressesMapper {

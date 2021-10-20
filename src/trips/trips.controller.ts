@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 
 import { TripDto } from './dto/trip.dto';
 import { TripsMapper } from './trips.mapper';
@@ -16,15 +16,5 @@ export class TripsController {
     const trip = this.tripsMapper.fromDtoToDomain(tripDto);
     const newTrip = await this.tripsService.create(trip);
     return this.tripsMapper.fromDomainToDto(newTrip);
-  }
-
-  @Get()
-  findAll() {
-    return this.tripsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tripsService.findOne(+id);
   }
 }
