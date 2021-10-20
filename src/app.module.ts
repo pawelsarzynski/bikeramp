@@ -7,6 +7,7 @@ import LoggerMiddleware from 'src/middlewares/logger/logger.middleware';
 import { TripsModule } from 'src/trips/trips.module';
 
 import { config } from '../config/configuration';
+import { StatsModule } from './stats/stats.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { config } from '../config/configuration';
     DatabaseModule,
     HealthModule,
     TripsModule,
+    StatsModule,
   ],
 })
 export class AppModule {

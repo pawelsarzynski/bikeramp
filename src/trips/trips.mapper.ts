@@ -6,7 +6,7 @@ import { AddressesMapper } from '../addresses/addresses.mapper';
 import Trip from './entities/trip.entity';
 import { CreatedTripDto } from './dto/createdTrip.dto';
 import { TripDto } from './dto/trip.dto';
-import { CURRENCY, DISTANCE_UNIT } from '../shared/constants';
+import { formatCurrency, formatDistance } from '../shared/helpers';
 
 @Injectable()
 export class TripsMapper {
@@ -19,8 +19,8 @@ export class TripsMapper {
   fromDomainToDto(trip: Trip): CreatedTripDto {
     const dto = new CreatedTripDto();
 
-    dto.price = `${trip.price}${CURRENCY}`;
-    dto.distance = `${trip.distance}${DISTANCE_UNIT}`;
+    dto.price = formatCurrency(trip.price);
+    dto.distance = formatDistance(trip.distance);
     dto.date = trip.date;
     dto.startAddress = this.addressMapper.fromDomainToDto(trip.startAddress);
     dto.destinationAddress = this.addressMapper.fromDomainToDto(
