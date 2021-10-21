@@ -1,9 +1,11 @@
+import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { Client } from '@googlemaps/google-maps-services-js';
 
 import { DistanceProvider } from './distance.provider';
 import { AddressesMapper } from '../addresses/addresses.mapper';
+import { ERROR_MESSAGES } from '../shared/constants';
 
 const addressesMapperMock = {
   fromDomainToDto: jest.fn((val) => Object.values(val).join(' ')),
@@ -62,6 +64,11 @@ describe('StatsMapper', () => {
   });
 
   describe('getDistance', () => {
+    afterEach(() => {
+      Object.values(googleClientMock).forEach((fn) => fn.mockClear());
+      Object.values(addressesMapperMock).forEach((fn) => fn.mockClear());
+    });
+
     it('should get distance between addresses', async () => {
       googleClientMock.geocode
         .mockResolvedValueOnce({
@@ -112,6 +119,34 @@ describe('StatsMapper', () => {
         2,
         addressToFixture,
       );
+    });
+
+    it('should throw error when invalid address is provided', async () => {
+      googleClientMock.geocode.mockResolvedValueOnce({
+        data: { results: [] },
+      });
+
+      try {
+        expect(
+          await provider.getDistance(addressFromFixture, addressToFixture),
+        ).toThrowError();
+      } catch (ex) {
+        expect(ex).toBeInstanceOf(BadRequestException);
+        expect(ex.message).toBe(ERROR_MESSAGES.INVALID_ADDRESS);
+        expect(googleClientMock.geocode).toBeCalledTimes(1);
+        expect(googleClientMock.geocode).toHaveBeenCalledWith({
+          params: {
+            address: Object.values(addressFromFixture).join(' '),
+            key: 'GOOGLE_API_KEY_MOCK',
+          },
+          timeout: 1000,
+        });
+        expect(googleClientMock.distancematrix).not.toBeCalled();
+        expect(addressesMapperMock.fromDomainToDto).toHaveBeenCalledTimes(1);
+        expect(addressesMapperMock.fromDomainToDto).toHaveBeenCalledWith(
+          addressFromFixture,
+        );
+      }
     });
   });
 });

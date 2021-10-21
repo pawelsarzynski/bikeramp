@@ -1,7 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 
-import { StatsService } from './stats.service';
+import { StatMonthlyDto } from './dto/statMonthly.dto';
 import { StatsMapper } from './stats.mapper';
+import { StatsService } from './stats.service';
+import { StatWeeklyDto } from './dto/statWeekly.dto';
 
 @Controller('stats')
 export class StatsController {
@@ -10,6 +13,9 @@ export class StatsController {
     private readonly statsService: StatsService,
   ) {}
 
+  @ApiResponse({
+    type: () => StatWeeklyDto,
+  })
   @Get('weekly')
   async getWeekly() {
     const stat = await this.statsService.getWeekly();
@@ -17,6 +23,10 @@ export class StatsController {
     return this.statsMapper.fromDomainToWeeklyDto(stat);
   }
 
+  @ApiResponse({
+    type: () => StatMonthlyDto,
+    isArray: true,
+  })
   @Get('monthly')
   async getMonthly() {
     const stats = await this.statsService.getMonthly();

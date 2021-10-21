@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Client } from '@googlemaps/google-maps-services-js';
 
 import Address from '../addresses/entities/address.entity';
 import { AddressesMapper } from '../addresses/addresses.mapper';
-import { METERS_IN_KILOMETER } from '../shared/constants';
+import { METERS_IN_KILOMETER, ERROR_MESSAGES } from '../shared/constants';
 
 @Injectable()
 export class DistanceProvider {
@@ -42,6 +42,12 @@ export class DistanceProvider {
       },
       timeout: this.#timeout,
     });
+
+    if (data.results.length === 0) {
+      throw new BadRequestException({
+        message: ERROR_MESSAGES.INVALID_ADDRESS,
+      });
+    }
 
     return data.results[0].geometry.location;
   };
