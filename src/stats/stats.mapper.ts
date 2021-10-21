@@ -21,7 +21,7 @@ export class StatsMapper {
   fromDomainToMonthlyDto(stat: StatMonthly): StatMonthlyDto {
     const dto = new StatMonthlyDto();
 
-    dto.day = format(new Date(), 'MMMM, do');
+    dto.day = format(new Date(stat.day), 'MMMM, do');
     dto.totalDistance = formatDistance(stat.totalDistance);
     dto.avgRide = formatDistance(stat.avgRide);
     dto.avgPrice = formatCurrency(stat.avgPrice);
