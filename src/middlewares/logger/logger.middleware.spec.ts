@@ -9,13 +9,17 @@ const loggerMock = {
   log: jest.fn(),
 } as unknown as Logger;
 
+jest.mock('@nestjs/common', () => ({
+  ...(jest.requireActual('@nestjs/common') as Record<string, any>),
+  Logger: jest.fn(() => loggerMock),
+}));
+
 describe('LoggerMiddleware', () => {
   let logger: LoggerMiddleware;
   const nextMock = jest.fn();
 
   beforeEach(() => {
     logger = new LoggerMiddleware();
-    Object.assign(logger, { logger: loggerMock });
   });
 
   afterEach(() => {
