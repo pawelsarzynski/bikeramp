@@ -18,7 +18,7 @@ export class TripsController {
     type: () => CreatedTripDto,
   })
   @Post()
-  async create(@Body() tripDto: TripDto) {
+  async create(@Body() tripDto: TripDto): Promise<CreatedTripDto> {
     const trip = this.tripsMapper.fromDtoToDomain(tripDto);
     const newTrip = await this.tripsService.create(trip);
     return this.tripsMapper.fromDomainToDto(newTrip);

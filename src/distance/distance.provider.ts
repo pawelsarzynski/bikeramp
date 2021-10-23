@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Client } from '@googlemaps/google-maps-services-js';
+import { Client, LatLng } from '@googlemaps/google-maps-services-js';
 
 import Address from '../addresses/entities/address.entity';
 import { AddressesMapper } from '../addresses/addresses.mapper';
@@ -16,7 +16,7 @@ export class DistanceProvider {
     private readonly googleClient: Client,
   ) {}
 
-  async getDistance(from: Address, to: Address) {
+  async getDistance(from: Address, to: Address): Promise<number> {
     const fromCoords = await this.#getCoordinates(from);
     const toCoords = await this.#getCoordinates(to);
 
@@ -32,7 +32,7 @@ export class DistanceProvider {
     return data.rows[0].elements[0].distance.value / METERS_IN_KILOMETER;
   }
 
-  #getCoordinates = async (address: Address) => {
+  #getCoordinates = async (address: Address): Promise<LatLng> => {
     const addressDto = this.addressesMapper.fromDomainToDto(address);
 
     const { data } = await this.googleClient.geocode({

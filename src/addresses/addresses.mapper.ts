@@ -8,7 +8,7 @@ export class AddressesMapper {
     return `${address.street} ${address.buildingNo}, ${address.city}, ${address.country}`;
   }
 
-  fromDtoToDomain() {
+  fromDtoToDomain(): void {
     throw new NotImplementedException();
   }
 }

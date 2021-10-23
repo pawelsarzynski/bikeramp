@@ -17,7 +17,7 @@ export class StatsController {
     type: () => StatWeeklyDto,
   })
   @Get('weekly')
-  async getWeekly() {
+  async getWeekly(): Promise<StatWeeklyDto> {
     const stat = await this.statsService.getWeekly();
 
     return this.statsMapper.fromDomainToWeeklyDto(stat);
@@ -28,7 +28,7 @@ export class StatsController {
     isArray: true,
   })
   @Get('monthly')
-  async getMonthly() {
+  async getMonthly(): Promise<StatMonthlyDto[]> {
     const stats = await this.statsService.getMonthly();
 
     return stats.map(this.statsMapper.fromDomainToMonthlyDto);
