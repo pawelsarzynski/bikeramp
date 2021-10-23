@@ -13,7 +13,7 @@ export class TripsService {
     private readonly distanceProvider: DistanceProvider,
   ) {}
 
-  async create(trip: Trip) {
+  async create(trip: Trip): Promise<Trip> {
     trip.distance = await this.distanceProvider.getDistance(
       trip.startAddress,
       trip.destinationAddress,
